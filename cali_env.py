@@ -23,7 +23,7 @@ class DRSUEnv(object):
     @staticmethod
     def check_dir(file_dir):
         if not os.path.exists(file_dir):
-            os.mkdir(file_dir)
+            os.makedirs(file_dir)
             logger.info('创建目录：{}'.format(file_dir))
         return file_dir
 
@@ -42,7 +42,7 @@ class DRSUEnv(object):
         """
         ssh_session = BaseCommand(host, port, username, password)
         ssh_session.reconnect()
-        remote_path = os.path.join(remote_path, self.tar_name)
+        remote_path = os.path.join(remote_path, self.project_name, self.tar_name)
         locate_path = os.path.join(self.tar_dir, self.tar_name)
         try:
             ssh_session.download(remote_path, locate_path)

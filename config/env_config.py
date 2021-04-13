@@ -158,29 +158,35 @@ class Config:
             self.config.write(f)
 
 
-class env_Config(Config):
+class EnvConfig(Config):
     def __init__(self, config_file='env_config.ini'):
         super().__init__(config_file)
-        self._username = None
-        self._password = None
+        self._section = 'cali_env'
+        self._cali_path = None
+        self._fixed_path = None
+        self._root_path = None
+        self._resource_path = None
 
     @property
-    def username(self):
-        if not self._username:
-            self._username = self.get_value('user', 'username')
-        return self._username
-
-    @username.setter
-    def username(self, value):
-        self._username = value
+    def cali_path(self):
+        if not self._cali_path:
+            self._cali_path = self.get_value(self._section, 'cali_path')
+        return self._cali_path
 
     @property
-    def password(self):
-        if not self._password:
-            self._password = self.get_value('user', 'password')
-        return self._password
+    def fixed_path(self):
+        if not self._fixed_path:
+            self._fixed_path = self.get_value(self._section, 'fixed_path')
+        return self._fixed_path
 
-    @password.setter
-    def password(self, value):
-        self._password = value
+    @property
+    def root_path(self):
+        if not self._root_path:
+            self._root_path = self.get_value(self._section, 'root_path')
+        return self._root_path
 
+    @property
+    def resource_path(self):
+        if not self._resource_path:
+            self._resource_path = self.get_value(self._section, 'resource_path')
+        return self._resource_path
