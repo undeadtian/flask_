@@ -1,0 +1,109 @@
+syntax = "proto2";
+
+package common.sensor;
+
+enum SensorSource {
+  UnknownSource = 0;
+  /// lidar
+  LidarMain = 1;
+  LidarTailLeft = 2;
+  LidarTailRight = 3;
+  LidarHeadMid = 4;
+  LidarMerge = 5;
+  LidarTailMid = 6;
+  LidarHeadLeft = 7;
+  LidarHeadRight = 8;
+  // lidar rs
+  LidarMidLeft = 92;
+  LidarMidRight = 93;
+  LidarTopLeft = 94;
+  LidarTopRight = 95;
+  LidarTopMid = 250;
+  // radar
+  RadarTailMid = 20;
+  RadarHeadMid = 21;
+  // camera
+  CameraHeadLeft = 40;
+  CameraHeadRight = 41;
+  CameraFrontLeft = 42;
+  CameraFrontRight = 43;
+  CameraMidLeft = 44;
+  CameraMidRight = 45;
+  CameraTailLeft = 46;
+  CameraTailRight = 47;
+  CameraTrafficLight = 48;
+  // localization
+  VehicleCenter = 60;  // IMU
+  AsensingIns = 61;
+  // virtual
+  World = 70;
+  EgoFront = 71;
+  FusionTrack = 81;
+  FusionPre = 82;
+  FusionLidarRadarMerge = 83;
+  VisualizeRaw = 91;
+  // sync
+  SyncLidarHead = 100;
+  SyncLidarFrontLeft = 101;
+  SyncLidarFrontRight = 102;
+  SyncLidarMidLeft = 103;
+  SyncLidarMidRight = 104;
+  SyncLidarTailLeft = 105;
+  SyncLidarTailRight = 106;
+  SyncLidarHeadLeft = 107;
+  SyncLidarHeadRight = 108;
+  SyncLidarTailMid = 109;
+  SyncLidarTopMid = 251;
+
+  // used as key in the map of UltrasonicRadar msg
+  UltrasonicRadarHeadLeft = 131;
+  UltrasonicRadarHeadMid = 132;
+  UltrasonicRadarHeadRight = 133;
+  UltrasonicRadarRightFront = 134;
+  UltrasonicRadarRightMidFront = 135;
+  UltrasonicRadarRightMidRear = 136;
+  UltrasonicRadarRightRear = 137;
+  UltrasonicRadarLeftFront = 138;
+  UltrasonicRadarLeftMidFront = 139;
+  UltrasonicRadarLeftMidRear = 140;
+  UltrasonicRadarLeftRear = 141;
+  UltrasonicRadarTailLeft = 142;
+  UltrasonicRadarTailMid = 143;
+  UltrasonicRadarTailRight = 144;
+  UltrasonicRadarCenterFront = 145;
+  UltrasonicRadarCenterMid = 146;
+  UltrasonicRadarCenterRear = 147;
+  //
+  UltrasonicRadar = 148;
+  UltrasonicRadarHeadLeftSub = 149;
+  UltrasonicRadarHeadMidSub = 150;
+  UltrasonicRadarHeadRightSub = 151;
+  UltrasonicRadarTailLeftSub = 152;
+  UltrasonicRadarTailMidSub = 153;
+  UltrasonicRadarTailRightSub = 154;
+  UltrasonicRadarHubZero = 160;
+  UltrasonicRadarHubOne = 161;
+  UltrasonicRadarHubTwo = 162;
+  UltrasonicRadarHubThree = 163;
+
+  Laser = 180;
+  LaserZero = 181;
+
+  V2X_BROADXT = 200;
+  Rainfall = 260;
+  EleMonitor = 261;
+
+  BayuRadar = 270;
+}
+
+enum SensorType {
+  Unknown = 0;
+  Lidar = 1;
+  Radar = 2;
+  Camera = 3;
+  Fusion = 4;
+  Ultrasonic = 5;
+  Sync = 6;
+  V2X = 7;
+  Monitor = 8;
+}

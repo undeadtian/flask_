@@ -1,0 +1,152 @@
+syntax = "proto2";
+
+import "sensor_source.proto";
+
+// package calibration;
+
+message LidarCameraCrossCalibration {
+  message LidarConfig {
+    required common.sensor.SensorSource device_id = 1;
+    optional string extractor = 2;
+    optional string data_buffer = 3;
+    repeated common.sensor.SensorSource assist_devices = 4;
+    optional double min_detect_distance = 5;
+    // range diff calculation
+    required bool enable_range = 11 [default = true];
+    optional float x_gamma = 12;
+    optional float depth_diff_cap = 13;
+    optional float min_range_diff = 14;
+    optional float low_depth_diff_filter = 15;
+    optional float penalty_from_range_coeff = 16;
+    optional float min_range = 17;
+    optional bool constrain_range_area= 18 [default = true];
+    optional double range_y_max_margin = 19 [default = 0.0];
+    optional double range_y_min_margin = 20 [default = 0.0];
+    optional double range_max_ego_x = 21 [default = 100.0];
+    optional double range_min_ego_x = 22 [default = 0.0];
+    optional double range_max_ego_z = 23 [default = 10.0];
+    optional double range_min_ego_z = 24 [default = -100.0];
+    // intensity diff calculation
+    required bool enable_intensity = 31 [default = true];
+    optional float min_intensity_diff = 32;
+    optional double intensity_weight = 33 [default = 1.0];
+    optional double intensity_max_limit = 34 [default = 8.0];
+    optional double intensity_min_limit = 35 [default = 2.0];
+    optional double intensity_max_ego_z = 36 [default = 0.1];
+    optional double intensity_min_ego_z = 37 [default = -0.1];
+    optional bool constrain_intensity_area = 38 [default = true]; // don't effect z constraints
+    optional double intensity_y_max_margin = 39 [default = 0.0];
+    optional double intensity_y_min_margin = 40 [default = 0.0];
+    optional double intensity_max_ego_x = 41 [default =100.0];
+    optional double intensity_min_ego_x = 42 [default =0.0];
+
+
+  }
+
+  message CameraConfig {
+    required common.sensor.SensorSource device_id = 1;
+    optional string extractor = 2;
+    optional string data_buffer = 3;
+    optional string object_name = 4;
+    optional string object_data_buffer = 5;
+    optional float gdt_thres = 6;
+    optional float gdt_basic_dist = 7;
+    optional int32 resize_scale = 8;
+    optional float gaussian_blur_size = 9;
+    optional float idt_dis_thread_width_ratio = 10;
+    optional float alpha = 11;
+    optional int32 max_idt_kernel_size = 12;
+    optional int32 morphology_kernel_size = 13;
+    optional bool use_sharpen = 14 [default = true];
+    enum BinaryMode {
+      GUSSIAN = 0;
+      MEAN = 1;
+      OTSU = 2;
+      MANUAL = 3;
+    }
+    optional BinaryMode binary_mode = 15 [default = GUSSIAN];
+    optional int32 binary_block_size = 16 [default = 61];
+    optional int32 binary_threshold = 17 [default = 128];
+  }
+
+  message ObstacleConfig {
+    required string data_buffer = 1;
+    optional string buffer_name = 2;
+  }
+
+  message CalibrationConfig {
+    required string operation_mode = 1; 
+    map<string, Param> param = 2;
+    message Param {
+      required bool use_box = 1;
+      required double alpha = 2;
+      required double coeff_radian_to_degrees = 3;
+      required int32 thread_num = 5;
+      required double trans_range = 6;
+      required int32 trans_step= 7;
+      required double trans_total_range = 8;
+      required double rot_range = 9;
+      required int32 rot_step = 10;
+      required double rot_total_range = 11;
+      required int32 max_iter = 12;
+      required float epsilon = 13;
+      required bool use_time_reset = 14;
+      required int32 reset_time = 15;
+      required double img_mask_default_value = 26;
+      required double box_enlarge_factor = 27;
+      required int32 box_enlarge_addtion_size = 28;
+      required double min_box_area_ratio = 29;
+      required int32 min_box_area = 30;
+      required int32 rect_x = 31;
+      required int32 rect_y = 32;
+      required int32 rect_width = 33;
+      required int32 rect_height = 34;
+      required int32 rect_margin = 35;
+      required uint32 min_lidar_features = 36;
+      required double trans_vel_range = 37;
+      required double rot_vel_range = 38;
+      required double local_search_trans_scale = 39;
+      required double local_search_rot_scale = 40;
+      required bool pre_select_lidar_points = 41;
+      optional bool is_visualization = 45 [default = false];
+      optional bool is_norm = 46 [default = false];
+      optional bool is_save = 47 [default = false];
+      optional int32 max_process_num = 48;
+    }
+  }
+
+  message Optimization {
+    optional double freq = 1 [default = 10];
+    optional int32 window_size = 2 [default = 9];
+    optional int32 min_window_size = 3;
+    optional double compensate_time = 4 [default = 0.0];
+  }
+
+  message CalibParamsAdjustment { 
+    message InitParameters {
+      optional double rotate_x = 1 [default = -100.0];
+      optional double rotate_y = 2 [default = 0.0];
+      optional double rotate_z = 3 [default = -90.0];
+      optional double x = 4 [default = 0.0];
+      optional double y = 5 [default = 0.0];
+      optional double z = 6 [default = 0.0];
+      optional double camera_origin_distance = 7 [default = 0.2];
+    }
+    optional bool set_init_parameters = 1 [default = false];
+    optional InitParameters calib_init_params = 2;
+    optional double camera_pitch_adjustment = 11 [default = 0.0];
+    optional double camera_yaw_adjustment = 12 [default = 0.0];
+    optional double camera_roll_adjustment = 13 [default = 0.0];
+    optional double x_adjustment_along_lidar = 14 [default = 0.0];
+    optional double y_adjustment_along_lidar = 15 [default = 0.0];
+    optional double z_adjustment_along_lidar = 16 [default = 0.0];
+  }
+
+  optional LidarConfig lidar_config = 1;
+  optional CameraConfig camera_config = 2;
+  optional ObstacleConfig obstacle_config = 3;
+  optional Optimization optimization_config = 4;
+  optional CalibrationConfig calibration_config = 5;
+  optional bool enable_manual_adjust = 11 [default = false];
+  optional CalibParamsAdjustment calib_params_adjustment = 12;
+}

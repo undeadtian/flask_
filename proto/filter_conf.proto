@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+message FilterConf {
+  optional bool is_use_voxel_grid= 1 [default = false];
+  optional double lx = 2 [default = 0.2];
+  optional double ly = 3 [default = 0.2];
+  optional double lz = 4 [default = 0.2];
+  optional bool is_use_statistical_outlier_removal= 5 [default = false];
+  optional double mean_k = 6 [default =30];
+  optional double stddevmulthresh = 7 [default = 0.6];
+}
