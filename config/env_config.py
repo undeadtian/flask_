@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/4/6 下午4:59
 # @Author  : wth
-from configparser import ConfigParser
+
 import os
+import collections
+from configparser import ConfigParser
 
 
 class Config:
@@ -166,6 +168,7 @@ class EnvConfig(Config):
         self._fixed_path = None
         self._root_path = None
         self._resource_path = None
+        self._tar_path = None
 
     @property
     def cali_path(self):
@@ -190,3 +193,17 @@ class EnvConfig(Config):
         if not self._resource_path:
             self._resource_path = self.get_value(self._section, 'resource_path')
         return self._resource_path
+
+    @property
+    def tar_path(self):
+        if not self._tar_path:
+            self._tar_path = self.get_value(self._section, 'tar_path')
+        return self._tar_path
+
+
+def config_manger(section, config_file='env_config.ini'):
+    sections = Config(config_file).get_sections()
+    dict_config = {'cali_env': EnvConfig}
+    dict_config = collections.defaultdict({'cali_env': EnvConfig})
+    if section in sections:
+        return EnvConfig

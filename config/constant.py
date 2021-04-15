@@ -14,7 +14,6 @@ class _const:
             raise self.ConstError("Can't change const.%s" % name)
         if not name.isupper():
             raise self.ConstCaseError('const name "%s" is not all supercase' % name)
-
         self.__dict__[name] = value
 
 
@@ -25,3 +24,4 @@ const.MODE_FILTER = 2
 const.MODE_MERGE = 1
 const.MODE_FILTER_1 = 4
 const.PROJECT_NAME = {'xiaoshan': 'xz', 'jichang': 'jc', 'wuzhen': 'wz'}
+const.CALI_CONFIG = {'middle': 'fixed_cam_calib_left.conf', 'long': 'fixd_cam_calib_right.conf'}

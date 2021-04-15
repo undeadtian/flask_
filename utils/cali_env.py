@@ -12,7 +12,7 @@ logger = Logger('DRSUEnv').getlog()
 
 class DRSUEnv(object):
     def __init__(self, project_name, drsu_id, tar_dir, root_dir,
-                 remote_host, remote_port, remote_path, username='broadxt', password='broadxt333', ):
+                 remote_host, remote_port, remote_path, username='broadxt', password='broadxt333', froce=False):
         """
         从远端服务器下载标定数据的压缩文件，解压后存放到标定程序文件夹中的指定路径下
         Args:
@@ -25,12 +25,14 @@ class DRSUEnv(object):
             remote_path: 服务器压缩文件所在文件夹地址
             username:
             password:
+            force: 如果当前已经有环境，是否需要重新下载解压覆盖原有环境
         """
         self.project_name = project_name
         self.drsu_id = drsu_id
         self.remote_info = [remote_host, remote_port, username, password]
         self.remote_path = remote_path
         self.root_dir = root_dir
+        self.force = froce
         self.tar_name = 'drsu{}.tar.gz'.format(str(self.drsu_id).rjust(2, '0'))
         self.tar_dir = self.check_dir(os.path.join(tar_dir, project_name))
         # self.ssh_session = BaseCommand(host, port, username, password)
@@ -80,6 +82,9 @@ class DRSUEnv(object):
         command = 'mv {} {}'.format(camera_conf_path, dest_conf_path)
         subprocess.run(command)
         logger.info('将文件:{}拷贝到:{}'.format(camera_conf_path, dest_conf_path))
+
+    def is_exist_cali_env(self):
+        pass  # TODO 检查本地是否已经存在标定数据
 
     def prepare_for_cali_env(self):
         """
