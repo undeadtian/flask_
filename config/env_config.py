@@ -169,6 +169,13 @@ class EnvConfig(Config):
         self._root_path = None
         self._resource_path = None
         self._tar_path = None
+        self._local_host = None
+        self._local_port = None
+        self._remote_host = None
+        self._remote_port = None
+        self._user_name = None
+        self._password = None
+        self._remote_path = None
 
     @property
     def cali_path(self):
@@ -200,6 +207,48 @@ class EnvConfig(Config):
             self._tar_path = self.get_value(self._section, 'tar_path')
         return self._tar_path
 
+    @property
+    def remote_host(self):
+        if not self._remote_host:
+            self._remote_host = self.get_value(self._section, 'remote_host')
+        return self._remote_host
+
+    @property
+    def remote_port(self):
+        if not self._remote_port:
+            self._remote_port = self.get_value(self._section, 'remote_port')
+        return self._remote_port
+
+    @property
+    def remote_path(self):
+        if not self._remote_path:
+            self._remote_path = self.get_value(self._section, 'remote_path')
+        return self._remote_path
+
+    @property
+    def user_name(self):
+        if not self._user_name:
+            self._user_name = self.get_value(self._section, 'user_name')
+        return self._user_name
+
+    @property
+    def password(self):
+        if not self._password:
+            self._password = self.get_value(self._section, 'password')
+        return self._password
+
+    @property
+    def local_host(self):
+        if not self._local_host:
+            self._local_host = self.get_value(self._section, 'local_host')
+        return self._local_host
+
+    @property
+    def local_port(self):
+        if not self._local_port:
+            self._local_port = self.get_value(self._section, 'local_port')
+        return self._local_port
+
 
 def config_manger(section, config_file='env_config.ini'):
     sections = Config(config_file).get_sections()
@@ -207,3 +256,8 @@ def config_manger(section, config_file='env_config.ini'):
     dict_config = collections.defaultdict({'cali_env': EnvConfig})
     if section in sections:
         return EnvConfig
+
+
+if __name__ == '__main__':
+    a = EnvConfig().remote_path
+    print(a)

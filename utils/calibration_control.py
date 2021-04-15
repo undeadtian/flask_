@@ -6,6 +6,9 @@ import time
 import os
 import threading
 import subprocess
+import datetime
+from datetime import timedelta
+
 from common.Log import Logger
 
 logger = Logger('CalibrationControl').getlog()
@@ -64,13 +67,18 @@ class CalibrationControlSingleton(object):
         self.client.send(bytes(str(msg), encoding="ascii"))
         logger.info('send msg:{}'.format(msg))
 
-    def recv_msg(self):
+    def recv_msg(self, wait_time):
+        # wait_until = datetime.now() + timedelta(hours=delete_TO)
         while True:
             recv_str = self.client.recv(1024, 0)
             recv_str = recv_str.decode("ascii")
             if recv_str == 'Success':
                 logger.info('recv msg success')
                 break
+
+    def send_msg_wait(self, msg, wait_time=0):
+        self.send_msg(msg)
+        self.recv_msg(wait_time)
 
     def get_cali_status(self):
         """

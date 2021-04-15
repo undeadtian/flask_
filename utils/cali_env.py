@@ -12,7 +12,7 @@ logger = Logger('DRSUEnv').getlog()
 
 class DRSUEnv(object):
     def __init__(self, project_name, drsu_id, tar_dir, root_dir,
-                 remote_host, remote_port, remote_path, username='broadxt', password='broadxt333', froce=False):
+                 remote_host, remote_port, remote_path, froce, username='broadxt', password='broadxt333', ):
         """
         从远端服务器下载标定数据的压缩文件，解压后存放到标定程序文件夹中的指定路径下
         Args:
